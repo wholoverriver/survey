@@ -1,0 +1,1775 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>독서 & 공부 습관 설문조사</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #eef2f8;
+    --paper: #f7f9fd;
+    --ink: #1a2236;
+    --ink-light: #4a5a7a;
+    --accent: #3a5fc8;
+    --accent-warm: #5b82e8;
+    --accent-soft: #c5d5f5;
+    --border: #c2d0ea;
+    --section-bg: #f0f4fb;
+    --highlight: #f4f7fd;
+    --success: #3a7a5a;
+    --error: #a04040;
+    --shadow: 0 2px 20px rgba(26,34,54,0.08);
+    --shadow-lg: 0 8px 40px rgba(26,34,54,0.15);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 40px 20px 80px;
+    background-image: 
+      radial-gradient(ellipse at 20% 20%, rgba(91,130,232,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(58,95,200,0.06) 0%, transparent 60%);
+  }
+
+  .survey-wrap {
+    max-width: 740px;
+    margin: 0 auto;
+  }
+
+  /* Header */
+  .survey-header {
+    text-align: center;
+    margin-bottom: 36px;
+    padding: 48px 36px 40px;
+    background: var(--paper);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .survey-header::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-warm), var(--accent));
+  }
+  .survey-header .icon {
+    font-size: 2.4rem;
+    margin-bottom: 14px;
+    display: block;
+  }
+  .survey-header h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+    letter-spacing: -0.02em;
+  }
+  .survey-header .sub {
+    font-size: 0.92rem;
+    color: var(--ink-light);
+    font-weight: 300;
+    margin-bottom: 24px;
+  }
+
+  /* Notice box */
+  .notice-box {
+    background: linear-gradient(135deg, #f0f6ff 0%, #e8f0fe 100%);
+    border: 1.5px solid var(--accent-soft);
+    border-left: 4px solid var(--accent-warm);
+    border-radius: 10px;
+    padding: 18px 20px;
+    text-align: left;
+    margin-bottom: 0;
+  }
+  .notice-box .notice-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .notice-box ul {
+    list-style: none;
+    padding: 0;
+  }
+  .notice-box ul li {
+    font-size: 0.875rem;
+    color: var(--ink-light);
+    padding: 4px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.6;
+  }
+  .notice-box ul li::before {
+    content: '·';
+    color: var(--accent-warm);
+    font-size: 1.2rem;
+    line-height: 1.3;
+    flex-shrink: 0;
+  }
+
+  /* Section */
+  .section-block {
+    background: var(--paper);
+    border-radius: 14px;
+    margin-bottom: 24px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .section-title {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-warm) 100%);
+    color: #fff;
+    padding: 16px 28px;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title .num {
+    background: rgba(255,255,255,0.25);
+    border-radius: 50%;
+    width: 26px; height: 26px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.8rem;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .section-body {
+    padding: 8px 0;
+  }
+
+  /* Question */
+  .question-item {
+    padding: 22px 28px;
+    border-bottom: 1px solid #f0e8d8;
+    transition: background 0.15s;
+  }
+  .question-item:last-child { border-bottom: none; }
+  .question-item.optional-q {
+    background: linear-gradient(90deg, rgba(248,243,234,0.6) 0%, transparent 100%);
+  }
+
+  .q-label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 14px;
+    line-height: 1.65;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .q-num {
+    background: var(--accent);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .q-required {
+    color: var(--error);
+    font-size: 0.75rem;
+    font-weight: 400;
+    margin-left: 4px;
+  }
+  .q-optional-badge {
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 20px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* Options */
+  .options-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .options-list.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .option-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--highlight);
+    font-size: 0.875rem;
+    color: var(--ink);
+    position: relative;
+    user-select: none;
+  }
+  .option-label:hover {
+    border-color: var(--accent-warm);
+    background: #eef4ff;
+    transform: translateX(2px);
+  }
+  .option-label input[type="radio"],
+  .option-label input[type="checkbox"] {
+    appearance: none;
+    width: 18px; height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    position: relative;
+    background: #fff;
+  }
+  .option-label input[type="checkbox"] { border-radius: 5px; }
+  .option-label input[type="radio"]:checked,
+  .option-label input[type="checkbox"]:checked {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+  .option-label input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px; height: 6px;
+    background: #fff;
+    border-radius: 50%;
+  }
+  .option-label input[type="checkbox"]:checked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .option-label:has(input:checked) {
+    border-color: var(--accent);
+    background: #eef4ff;
+    box-shadow: 0 0 0 3px rgba(58,95,200,0.1);
+  }
+
+  /* Textarea */
+  textarea {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    padding: 12px 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.875rem;
+    color: var(--ink);
+    background: var(--highlight);
+    resize: vertical;
+    min-height: 80px;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  textarea:focus { border-color: var(--accent); background: #fff; }
+  textarea::placeholder { color: #b5a48a; }
+
+  /* Validation error */
+  .val-error {
+    font-size: 0.78rem;
+    color: var(--error);
+    margin-top: 8px;
+    display: none;
+    align-items: center;
+    gap: 4px;
+  }
+  .val-error.show { display: flex; }
+  .question-item.has-error .q-label { color: var(--error); }
+  .question-item.has-error .option-label { border-color: rgba(160,64,64,0.3); }
+
+  /* Submit button */
+  .submit-area {
+    text-align: center;
+    margin-top: 32px;
+  }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--accent) 0%, var(--accent-warm) 100%);
+    color: #fff;
+    border: none;
+    padding: 16px 52px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(58,95,200,0.35);
+    transition: all 0.2s;
+    letter-spacing: 0.04em;
+  }
+  .btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(58,95,200,0.45);
+  }
+  .btn-submit:active { transform: translateY(0); }
+
+  /* Thank you */
+  .thankyou-screen {
+    display: none;
+    text-align: center;
+    padding: 60px 40px;
+    background: var(--paper);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border);
+  }
+  .thankyou-screen.show { display: block; }
+  .thankyou-screen .big-icon { font-size: 3rem; margin-bottom: 16px; }
+  .thankyou-screen h2 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.5rem;
+    color: var(--ink);
+    margin-bottom: 10px;
+  }
+  .thankyou-screen p { color: var(--ink-light); font-size: 0.9rem; line-height: 1.7; }
+
+  /* Stats button */
+  .stats-area {
+    text-align: center;
+    margin-top: 20px;
+  }
+  .btn-stats {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--ink-light);
+    padding: 10px 28px;
+    border-radius: 50px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-stats:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* Modal */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(44,36,22,0.55);
+    z-index: 100;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal-box {
+    background: var(--paper);
+    border-radius: 16px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    animation: fadeUp 0.2s ease;
+  }
+  @keyframes fadeUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-header {
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    background: var(--paper);
+    z-index: 1;
+  }
+  .modal-header h3 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .btn-close-modal {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: var(--ink-light);
+    padding: 4px;
+    line-height: 1;
+  }
+  .modal-body { padding: 24px 28px; }
+
+  /* Password input */
+  .pw-wrap {
+    text-align: center;
+    padding: 20px 0;
+  }
+  .pw-input {
+    border: 1.5px solid var(--border);
+    border-radius: 9px;
+    padding: 12px 18px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 260px;
+    outline: none;
+    text-align: center;
+    letter-spacing: 0.2em;
+    background: var(--highlight);
+    color: var(--ink);
+    transition: border-color 0.15s;
+    display: block;
+    margin: 0 auto 14px;
+  }
+  .pw-input:focus { border-color: var(--accent); background: #fff; }
+  .pw-error {
+    color: var(--error);
+    font-size: 0.82rem;
+    margin-bottom: 12px;
+    display: none;
+  }
+  .pw-error.show { display: block; }
+  .btn-pw-submit {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 11px 32px;
+    border-radius: 50px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .btn-pw-submit:hover { background: var(--accent-warm); }
+
+  /* Stats panel */
+  .stats-panel { display: none; }
+  .stats-panel.show { display: block; }
+  .stats-overview {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .overview-card {
+    background: var(--section-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .overview-card .val {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+  }
+  .overview-card .lbl {
+    font-size: 0.78rem;
+    color: var(--ink-light);
+    margin-top: 4px;
+    display: block;
+  }
+
+  .stats-section-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin: 24px 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .stat-q-block {
+    margin-bottom: 20px;
+  }
+  .stat-q-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  .stat-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 7px;
+  }
+  .stat-bar-label {
+    font-size: 0.78rem;
+    color: var(--ink-light);
+    width: 180px;
+    flex-shrink: 0;
+    line-height: 1.4;
+  }
+  .stat-bar-outer {
+    flex: 1;
+    background: var(--accent-soft);
+    border-radius: 20px;
+    height: 16px;
+    overflow: hidden;
+  }
+  .stat-bar-inner {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-warm));
+    border-radius: 20px;
+    transition: width 0.6s ease;
+    min-width: 2px;
+  }
+  .stat-bar-count {
+    font-size: 0.78rem;
+    color: var(--ink-light);
+    width: 50px;
+    text-align: right;
+    flex-shrink: 0;
+  }
+
+  .stat-time-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 12px;
+  }
+  .stat-time-card {
+    background: var(--section-bg);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 14px;
+    text-align: center;
+  }
+  .stat-time-card .tv {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--accent);
+    display: block;
+  }
+  .stat-time-card .tl {
+    font-size: 0.72rem;
+    color: var(--ink-light);
+    margin-top: 3px;
+  }
+
+  /* Delete controls */
+  .delete-area {
+    margin-top: 28px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+  }
+  .delete-section-title {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--error);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .btn-delete-all {
+    width: 100%;
+    background: transparent;
+    border: 1.5px solid var(--error);
+    color: var(--error);
+    padding: 11px 20px;
+    border-radius: 9px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 16px;
+  }
+  .btn-delete-all:hover { background: rgba(160,64,64,0.07); }
+
+  .response-list {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    max-height: 220px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  .response-list::-webkit-scrollbar { width: 4px; }
+  .response-list::-webkit-scrollbar-track { background: var(--section-bg); border-radius: 4px; }
+  .response-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .response-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--section-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+    gap: 10px;
+  }
+  .response-row-info {
+    font-size: 0.78rem;
+    color: var(--ink-light);
+    line-height: 1.5;
+  }
+  .response-row-info strong {
+    font-size: 0.82rem;
+    color: var(--ink);
+    font-weight: 600;
+    display: block;
+  }
+  .btn-delete-one {
+    background: transparent;
+    border: 1px solid rgba(160,64,64,0.4);
+    color: var(--error);
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .btn-delete-one:hover { background: rgba(160,64,64,0.08); border-color: var(--error); }
+
+  .confirm-toast {
+    background: rgba(26,34,54,0.9);
+    color: #fff;
+    font-size: 0.82rem;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 12px;
+    display: none;
+  }
+  .confirm-toast.show { display: block; }
+  .confirm-toast .toast-btns {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 8px;
+  }
+  .toast-btns button {
+    padding: 5px 16px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    border: none;
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .toast-btn-confirm { background: var(--error); color: #fff; }
+  .toast-btn-cancel { background: rgba(255,255,255,0.2); color: #fff; }
+
+  @media (max-width: 600px) {
+    .options-list.grid-2 { grid-template-columns: 1fr; }
+    .survey-header { padding: 32px 20px 28px; }
+    .section-body { padding: 4px 0; }
+    .question-item { padding: 18px 18px; }
+    .stats-overview { grid-template-columns: 1fr 1fr; }
+    .stat-bar-label { width: 120px; font-size: 0.72rem; }
+    .stat-time-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="survey-wrap" id="surveyWrap">
+
+  <!-- Header -->
+  <div class="survey-header">
+    <span class="icon">📚</span>
+    <h1>독서 & 공부 습관 설문조사</h1>
+    <p class="sub">응답 소요 시간 약 5~8분 · 응답 결과는 연구 목적으로만 활용됩니다</p>
+    <div class="notice-box">
+      <div class="notice-title">⚠️ 개인정보 수집 및 이용 안내</div>
+      <ul>
+        <li>본 설문은 익명으로 진행되며, 수집된 응답 데이터는 <strong>앱 서비스 연구 목적으로만</strong> 사용됩니다.</li>
+        <li>수집된 데이터는 설문 응답일로부터 <strong>3개월 후 자동 영구 삭제</strong>됩니다.</li>
+        <li>설문 제출 시 위 내용에 동의한 것으로 간주합니다.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <form id="surveyForm" novalidate>
+
+    <!-- Section 1: 독서 및 공부 습관 -->
+    <div class="section-block">
+      <div class="section-title"><span class="num">1</span> 독서 및 공부 습관</div>
+      <div class="section-body">
+
+        <div class="question-item" data-qid="h1" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q1</span> 현재 독서 기록이나 공부 시간 측정을 위해 앱을 사용하고 계신가요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="h1" value="예"> 예</label>
+            <label class="option-label"><input type="radio" name="h1" value="아니오"> 아니오</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item optional-q" data-qid="h2" data-required="false" data-type="checkbox">
+          <div class="q-label"><span class="q-optional-badge">선택</span> 위에서 1번 답변자에 한하여, 어떤 앱을 사용하고 계신가요? (복수 선택)</div>
+          <div class="options-list grid-2">
+            <label class="option-label"><input type="checkbox" name="h2" value="북모리"> 북모리</label>
+            <label class="option-label"><input type="checkbox" name="h2" value="북적북적"> 북적북적</label>
+            <label class="option-label"><input type="checkbox" name="h2" value="밀리의 서재"> 밀리의 서재</label>
+            <label class="option-label"><input type="checkbox" name="h2" value="열품타"> 열품타</label>
+            <label class="option-label"><input type="checkbox" name="h2" value="포레스트"> 포레스트</label>
+            <label class="option-label"><input type="checkbox" name="h2" value="기타"> 기타</label>
+          </div>
+        </div>
+
+        <div class="question-item" data-qid="h3" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q3</span> 평소 공부를 얼마나 자주 하시나요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="h3" value="거의 하지 않는다"> 거의 하지 않는다</label>
+            <label class="option-label"><input type="radio" name="h3" value="주 1-2회"> 주 1-2회</label>
+            <label class="option-label"><input type="radio" name="h3" value="주 3-4회"> 주 3-4회</label>
+            <label class="option-label"><input type="radio" name="h3" value="거의 매일"> 거의 매일</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="h4" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q4</span> 평소 독서를 얼마나 자주 하시나요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="h4" value="거의 하지 않는다"> 거의 하지 않는다</label>
+            <label class="option-label"><input type="radio" name="h4" value="한 달에 1-2권"> 한 달에 1-2권</label>
+            <label class="option-label"><input type="radio" name="h4" value="한 달에 3-4권"> 한 달에 3-4권</label>
+            <label class="option-label"><input type="radio" name="h4" value="한 달에 5권 이상"> 한 달에 5권 이상</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="h5" data-required="true" data-type="checkbox">
+          <div class="q-label"><span class="q-num">Q5</span> 독서나 공부할 때 가장 방해가 되는 요소는 무엇인가요? (복수 선택) <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="checkbox" name="h5" value="스마트폰 알림"> 스마트폰 알림</label>
+            <label class="option-label"><input type="checkbox" name="h5" value="SNS 및 유튜브 등 딴짓"> SNS 및 유튜브 등 딴짓</label>
+            <label class="option-label"><input type="checkbox" name="h5" value="집중력 유지 어려움"> 집중력 유지 어려움</label>
+            <label class="option-label"><input type="checkbox" name="h5" value="시간 관리가 안 됨"> 시간 관리가 안 됨</label>
+            <label class="option-label"><input type="checkbox" name="h5" value="기록하기 귀찮음"> 기록하기 귀찮음</label>
+          </div>
+          <div class="val-error">⚠ 하나 이상 선택해 주세요.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section 2: 기존 앱 사용 경험 -->
+    <div class="section-block">
+      <div class="section-title"><span class="num">2</span> 기존 앱 사용 경험</div>
+      <div class="section-body">
+
+        <div class="question-item" data-qid="a1" data-required="true" data-type="checkbox">
+          <div class="q-label"><span class="q-num">Q1</span> 기존 독서·공부 앱에서 불편했던 점은 무엇인가요? (복수 선택) <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="checkbox" name="a1" value="독서와 공부를 앱 두 개 번갈아 써야 불편"> 독서와 공부를 앱 두 개를 번갈아 써야 해서 불편했다</label>
+            <label class="option-label"><input type="checkbox" name="a1" value="기록 과정이 복잡하고 귀찮음"> 기록하는 과정이 복잡하고 귀찮았다</label>
+            <label class="option-label"><input type="checkbox" name="a1" value="타이머 실행 중 다른 기능 보여 집중 안 됨"> 타이머 실행 중에도 다른 기능이 보여서 집중이 안 됐다</label>
+            <label class="option-label"><input type="checkbox" name="a1" value="친구나 다른 사람과 공유 기능 없음"> 친구나 다른 사람과 공유하는 기능이 없었다</label>
+            <label class="option-label"><input type="checkbox" name="a1" value="UI가 복잡하거나 디자인 마음에 안 듦"> UI가 복잡하거나 디자인이 마음에 들지 않았다</label>
+            <label class="option-label"><input type="checkbox" name="a1" value="딱히 불편한 점 없었다"> 딱히 불편한 점 없었다</label>
+          </div>
+          <div class="val-error">⚠ 하나 이상 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="a2" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q2</span> 독서 앱과 공부 앱이 하나로 합쳐진다면 사용할 의향이 있으신가요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="a2" value="매우 그렇다"> 매우 그렇다</label>
+            <label class="option-label"><input type="radio" name="a2" value="그렇다"> 그렇다</label>
+            <label class="option-label"><input type="radio" name="a2" value="보통이다"> 보통이다</label>
+            <label class="option-label"><input type="radio" name="a2" value="그렇지 않다"> 그렇지 않다</label>
+            <label class="option-label"><input type="radio" name="a2" value="매우 그렇지 않다"> 매우 그렇지 않다</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="a3" data-required="true" data-type="textarea">
+          <div class="q-label"><span class="q-num">Q3</span> 기존 독서·공부 앱에서 "이런 기능이 있으면 좋겠다"고 느꼈던 점이 있다면 자유롭게 적어주세요. <span class="q-required">*</span></div>
+          <textarea name="a3" placeholder="자유롭게 입력해 주세요 (2-3줄 이내)" maxlength="300" rows="3"></textarea>
+          <div class="val-error">⚠ 내용을 입력해 주세요.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section 3: 타이머 및 모드 전환 -->
+    <div class="section-block">
+      <div class="section-title"><span class="num">3</span> 타이머 및 모드 전환 기능</div>
+      <div class="section-body">
+
+        <div class="question-item" data-qid="t1" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q1</span> 독서 모드와 공부 모드를 버튼 하나로 빠르게 전환할 수 있다면 유용할 것 같으신가요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="t1" value="매우 그렇다"> 매우 그렇다</label>
+            <label class="option-label"><input type="radio" name="t1" value="그렇다"> 그렇다</label>
+            <label class="option-label"><input type="radio" name="t1" value="보통이다"> 보통이다</label>
+            <label class="option-label"><input type="radio" name="t1" value="그렇지 않다"> 그렇지 않다</label>
+            <label class="option-label"><input type="radio" name="t1" value="매우 그렇지 않다"> 매우 그렇지 않다</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item optional-q" data-qid="t2" data-required="false" data-type="radio">
+          <div class="q-label"><span class="q-optional-badge">선택</span> 위 Q1에서 '그렇지 않다' 또는 '매우 그렇지 않다' 선택하신 경우, 그 이유는 무엇인가요?</div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="t2" value="굳이 합칠 필요가 없다"> 굳이 합칠 필요가 없다</label>
+            <label class="option-label"><input type="radio" name="t2" value="다른 기능은 사용하지 않을 것 같다"> 다른 기능은 사용하지 않을 것 같다</label>
+            <label class="option-label"><input type="radio" name="t2" value="기타"> 기타</label>
+          </div>
+        </div>
+
+        <div class="question-item" data-qid="t3" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q3</span> 타이머 화면에서 가장 강조되어야 할 정보는 무엇인가요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="t3" value="현재 경과 시간"> 현재 경과 시간</label>
+            <label class="option-label"><input type="radio" name="t3" value="남은 목표 시간"> 남은 목표 시간</label>
+            <label class="option-label"><input type="radio" name="t3" value="현재 시각"> 현재 시각</label>
+            <label class="option-label"><input type="radio" name="t3" value="오늘 총 누적 시간"> 오늘 총 누적 시간</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="t4" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q4</span> 상황에 따른 모드 전환 기능에서 기대하는 차별점은 무엇인가요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="t4" value="화면 테마 변경"> 화면 테마 변경</label>
+            <label class="option-label"><input type="radio" name="t4" value="기록 데이터 종류 변경"> 기록 데이터 종류 변경</label>
+            <label class="option-label"><input type="radio" name="t4" value="백색소음 종류 변경"> 백색소음 종류 변경</label>
+            <label class="option-label"><input type="radio" name="t4" value="허용 앱 리스트 변경"> 허용 앱 리스트 변경</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section 4: 독서 기록 + 도서 추천 -->
+    <div class="section-block">
+      <div class="section-title"><span class="num">4</span> 독서 기록 + 도서 추천 기능</div>
+      <div class="section-body">
+
+        <div class="question-item" data-qid="r1" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q1</span> 독서 기록 시 가장 필수적으로 기록하고 싶은 항목은 무엇인가요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="r1" value="읽은 페이지 수"> 읽은 페이지 수</label>
+            <label class="option-label"><input type="radio" name="r1" value="읽은 시간"> 읽은 시간</label>
+            <label class="option-label"><input type="radio" name="r1" value="문장 채집"> 문장 채집</label>
+            <label class="option-label"><input type="radio" name="r1" value="별점 및 평가"> 별점 및 평가</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="r2" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q2</span> 도서 추천 알고리즘의 가장 중요한 기준은 무엇인가요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="r2" value="읽은 책과 유사한 장르"> 읽은 책과 유사한 장르</label>
+            <label class="option-label"><input type="radio" name="r2" value="취향이 비슷한 유저의 추천"> 취향이 비슷한 유저의 추천</label>
+            <label class="option-label"><input type="radio" name="r2" value="베스트셀러 순위"> 베스트셀러 순위</label>
+            <label class="option-label"><input type="radio" name="r2" value="설정한 관심 키워드"> 설정한 관심 키워드</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="r3" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q3</span> 덜 읽은 책에 대한 진도율 알림이 도움이 된다고 생각하나요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="r3" value="매우 그렇다"> 매우 그렇다</label>
+            <label class="option-label"><input type="radio" name="r3" value="그렇다"> 그렇다</label>
+            <label class="option-label"><input type="radio" name="r3" value="보통이다"> 보통이다</label>
+            <label class="option-label"><input type="radio" name="r3" value="그렇지 않다"> 그렇지 않다</label>
+            <label class="option-label"><input type="radio" name="r3" value="매우 그렇지 않다"> 매우 그렇지 않다</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="r4" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q4</span> 기록의 편의성을 위해 가장 필요한 기능은? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="r4" value="사진 촬영 시 텍스트 자동 인식(OCR)"> 사진 촬영 시 텍스트 자동 인식(OCR)</label>
+            <label class="option-label"><input type="radio" name="r4" value="음성으로 남기는 독서 메모"> 음성으로 남기는 독서 메모</label>
+            <label class="option-label"><input type="radio" name="r4" value="읽은 페이지 바를 밀어서 간편 체크"> 읽은 페이지 바를 밀어서 간편 체크</label>
+            <label class="option-label"><input type="radio" name="r4" value="타 캘린더/앱과의 일정 연동"> 타 캘린더/앱과의 일정 연동</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="r5" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q5</span> 읽고 싶은 책을 저장해두는 위시리스트 기능을 사용할 의향이 있으신가요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="r5" value="매우 그렇다"> 매우 그렇다</label>
+            <label class="option-label"><input type="radio" name="r5" value="그렇다"> 그렇다</label>
+            <label class="option-label"><input type="radio" name="r5" value="보통이다"> 보통이다</label>
+            <label class="option-label"><input type="radio" name="r5" value="그렇지 않다"> 그렇지 않다</label>
+            <label class="option-label"><input type="radio" name="r5" value="매우 그렇지 않다"> 매우 그렇지 않다</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section 5: 스터디 기능 -->
+    <div class="section-block">
+      <div class="section-title"><span class="num">5</span> 스터디 기능</div>
+      <div class="section-body">
+
+        <div class="question-item" data-qid="s1" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q1</span> 학습 동기를 자극하는 가장 강력한 요소는? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="s1" value="성장 과정을 보여주는 캐릭터 육성/레벨업"> 성장 과정을 보여주는 캐릭터 육성/레벨업</label>
+            <label class="option-label"><input type="radio" name="s1" value="다른 유저들과의 실시간 랭킹 확인"> 다른 유저들과의 실시간 랭킹 확인</label>
+            <label class="option-label"><input type="radio" name="s1" value="목표 달성 시 제공되는 배지/상장"> 목표 달성 시 제공되는 배지/상장</label>
+            <label class="option-label"><input type="radio" name="s1" value="목표 미달성 시 발생하는 페널티"> 목표 미달성 시 발생하는 페널티 (경고 등)</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="s2" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q2</span> 유료 서비스(구독 등)를 이용한다면 가장 가치 있다고 느끼는 부분은? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="s2" value="광고 제거 및 무제한 저장 공간"> 광고 제거 및 무제한 저장 공간</label>
+            <label class="option-label"><input type="radio" name="s2" value="전문적인 학습 컨설팅/리포트 제공"> 전문적인 학습 컨설팅/리포트 제공</label>
+            <label class="option-label"><input type="radio" name="s2" value="프리미엄 집중 음원 및 배경 테마 제공"> 프리미엄 집중 음원 및 배경 테마 제공</label>
+            <label class="option-label"><input type="radio" name="s2" value="유료 사용자 전용 챌린지 및 커뮤니티"> 유료 사용자 전용 챌린지 및 커뮤니티</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="s3" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q3</span> 개인 맞춤형 집중 서비스에서 가장 기대하는 분석은? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="s3" value="요일/시간대별 나의 집중력 리포트"> 요일/시간대별 나의 집중력 리포트</label>
+            <label class="option-label"><input type="radio" name="s3" value="내 학습 수준에 맞는 도서/자료 추천"> 내 학습 수준에 맞는 도서/자료 추천</label>
+            <label class="option-label"><input type="radio" name="s3" value="슬럼프 시기에 보내주는 맞춤형 응원 및 알림"> 슬럼프 시기에 보내주는 맞춤형 응원 및 알림</label>
+            <label class="option-label"><input type="radio" name="s3" value="나와 비슷한 성향의 유저와의 매칭"> 나와 비슷한 성향의 유저와의 매칭</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="s4" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q4</span> 목표 달성 시 제공되는 보상 배지가 동기부여에 도움이 되나요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="s4" value="매우 그렇다"> 매우 그렇다</label>
+            <label class="option-label"><input type="radio" name="s4" value="그렇다"> 그렇다</label>
+            <label class="option-label"><input type="radio" name="s4" value="보통이다"> 보통이다</label>
+            <label class="option-label"><input type="radio" name="s4" value="그렇지 않다"> 그렇지 않다</label>
+            <label class="option-label"><input type="radio" name="s4" value="매우 그렇지 않다"> 매우 그렇지 않다</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="s5" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q5</span> 집중 데이터를 분석한 주간 리포트가 있다면 유료 결제 의사가 있나요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="s5" value="매우 그렇다"> 매우 그렇다</label>
+            <label class="option-label"><input type="radio" name="s5" value="그렇다"> 그렇다</label>
+            <label class="option-label"><input type="radio" name="s5" value="보통이다"> 보통이다</label>
+            <label class="option-label"><input type="radio" name="s5" value="그렇지 않다"> 그렇지 않다</label>
+            <label class="option-label"><input type="radio" name="s5" value="매우 그렇지 않다"> 매우 그렇지 않다</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section 6: 플레이리스트 -->
+    <div class="section-block">
+      <div class="section-title"><span class="num">6</span> 플레이리스트</div>
+      <div class="section-body">
+
+        <div class="question-item" data-qid="p1" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q1</span> 집중을 위해 가장 선호하는 사운드 종류는 무엇인가요? <span class="q-required">*</span></div>
+          <div class="options-list grid-2">
+            <label class="option-label"><input type="radio" name="p1" value="ASMR"> ASMR</label>
+            <label class="option-label"><input type="radio" name="p1" value="클래식"> 클래식</label>
+            <label class="option-label"><input type="radio" name="p1" value="케이팝 및 팝송"> 케이팝 및 팝송</label>
+            <label class="option-label"><input type="radio" name="p1" value="재즈"> 재즈</label>
+            <label class="option-label"><input type="radio" name="p1" value="기타"> 기타</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="p2" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q2</span> 플레이리스트 큐레이션 중 가장 선호하는 방식은 무엇인가요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="p2" value="시간대별 추천"> 시간대별 추천</label>
+            <label class="option-label"><input type="radio" name="p2" value="집중도 수준별 추천"> 집중도 수준별 추천</label>
+            <label class="option-label"><input type="radio" name="p2" value="책 장르별 추천"> 책 장르별 추천</label>
+            <label class="option-label"><input type="radio" name="p2" value="직접 생성"> 직접 생성</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section 7: 소셜 커뮤니티 -->
+    <div class="section-block">
+      <div class="section-title"><span class="num">7</span> 소셜 커뮤니티 기능</div>
+      <div class="section-body">
+
+        <div class="question-item" data-qid="c1" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q1</span> 다른 유저의 실시간 공부 현황을 보는 기능이 필요한가요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="c1" value="매우 그렇다"> 매우 그렇다</label>
+            <label class="option-label"><input type="radio" name="c1" value="그렇다"> 그렇다</label>
+            <label class="option-label"><input type="radio" name="c1" value="보통이다"> 보통이다</label>
+            <label class="option-label"><input type="radio" name="c1" value="그렇지 않다"> 그렇지 않다</label>
+            <label class="option-label"><input type="radio" name="c1" value="매우 그렇지 않다"> 매우 그렇지 않다</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="c2" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q2</span> 스터디 그룹을 만들어 함께 목표를 달성하는 기능에 참여하겠나요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="c2" value="매우 그렇다"> 매우 그렇다</label>
+            <label class="option-label"><input type="radio" name="c2" value="그렇다"> 그렇다</label>
+            <label class="option-label"><input type="radio" name="c2" value="보통이다"> 보통이다</label>
+            <label class="option-label"><input type="radio" name="c2" value="그렇지 않다"> 그렇지 않다</label>
+            <label class="option-label"><input type="radio" name="c2" value="매우 그렇지 않다"> 매우 그렇지 않다</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="c3" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q3</span> 독서 기록을 이미지로 변환하여 SNS에 공유하는 기능을 사용하나요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="c3" value="매우 그렇다"> 매우 그렇다</label>
+            <label class="option-label"><input type="radio" name="c3" value="그렇다"> 그렇다</label>
+            <label class="option-label"><input type="radio" name="c3" value="보통이다"> 보통이다</label>
+            <label class="option-label"><input type="radio" name="c3" value="그렇지 않다"> 그렇지 않다</label>
+            <label class="option-label"><input type="radio" name="c3" value="매우 그렇지 않다"> 매우 그렇지 않다</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="c4" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q4</span> 사용자 간의 랭킹 시스템이 공부의 재미를 높여준다고 생각하나요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="c4" value="매우 그렇다"> 매우 그렇다</label>
+            <label class="option-label"><input type="radio" name="c4" value="그렇다"> 그렇다</label>
+            <label class="option-label"><input type="radio" name="c4" value="보통이다"> 보통이다</label>
+            <label class="option-label"><input type="radio" name="c4" value="그렇지 않다"> 그렇지 않다</label>
+            <label class="option-label"><input type="radio" name="c4" value="매우 그렇지 않다"> 매우 그렇지 않다</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="c5" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q5</span> 다른 사람의 독서 노트를 구경하고 소통하는 기능을 원하시나요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="c5" value="매우 그렇다"> 매우 그렇다</label>
+            <label class="option-label"><input type="radio" name="c5" value="그렇다"> 그렇다</label>
+            <label class="option-label"><input type="radio" name="c5" value="보통이다"> 보통이다</label>
+            <label class="option-label"><input type="radio" name="c5" value="그렇지 않다"> 그렇지 않다</label>
+            <label class="option-label"><input type="radio" name="c5" value="매우 그렇지 않다"> 매우 그렇지 않다</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section 8: 디자인 선호도 -->
+    <div class="section-block">
+      <div class="section-title"><span class="num">8</span> 디자인 선호도</div>
+      <div class="section-body">
+
+        <div class="question-item" data-qid="d1" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q1</span> 앱의 전반적인 분위기로 어떤 스타일을 선호하시나요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="d1" value="감성적이고 따뜻한 스타일 (베이지, 브라운 계열)"> 감성적이고 따뜻한 스타일 (베이지, 브라운 계열)</label>
+            <label class="option-label"><input type="radio" name="d1" value="심플하고 깔끔한 미니멀 스타일 (화이트, 그레이 계열)"> 심플하고 깔끔한 미니멀 스타일 (화이트, 그레이 계열)</label>
+            <label class="option-label"><input type="radio" name="d1" value="집중감 있는 다크 스타일 (블랙, 네이비 계열)"> 집중감 있는 다크 스타일 (블랙, 네이비 계열)</label>
+            <label class="option-label"><input type="radio" name="d1" value="밝고 활기찬 스타일 (컬러풀)"> 밝고 활기찬 스타일 (컬러풀)</label>
+            <label class="option-label"><input type="radio" name="d1" value="아기자기한 캐릭터 스타일"> 아기자기한 캐릭터 스타일</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="d2" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q2</span> 독서 모드와 공부 모드의 분위기가 눈에 띄게 달라야 한다고 생각하시나요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="d2" value="매우 그렇다"> 매우 그렇다</label>
+            <label class="option-label"><input type="radio" name="d2" value="그렇다"> 그렇다</label>
+            <label class="option-label"><input type="radio" name="d2" value="보통이다"> 보통이다</label>
+            <label class="option-label"><input type="radio" name="d2" value="그렇지 않다"> 그렇지 않다</label>
+            <label class="option-label"><input type="radio" name="d2" value="매우 그렇지 않다"> 매우 그렇지 않다</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="d3" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q3</span> 모드 전환 방식으로 어떤 것이 더 자연스럽게 느껴지시나요? <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="d3" value="아이폰 무음 버튼처럼 물리적 토글 느낌"> 아이폰 무음 버튼처럼 물리적 토글 느낌</label>
+            <label class="option-label"><input type="radio" name="d3" value="화면 전체가 슥 바뀌는 슬라이드 전환"> 화면 전체가 슥 바뀌는 슬라이드 전환</label>
+            <label class="option-label"><input type="radio" name="d3" value="상단 탭으로 선택하는 방식"> 상단 탭으로 선택하는 방식</label>
+            <label class="option-label"><input type="radio" name="d3" value="홈 화면에서 아이콘으로 선택하는 방식"> 홈 화면에서 아이콘으로 선택하는 방식</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="d4" data-required="true" data-type="textarea">
+          <div class="q-label"><span class="q-num">Q4</span> 평소 디자인이 마음에 들어서 자주 쓰게 되는 앱이 있다면 앱 이름과 이유를 적어주세요. <span class="q-required">*</span></div>
+          <textarea name="d4" placeholder="앱 이름과 이유를 자유롭게 입력해 주세요" maxlength="200" rows="3"></textarea>
+          <div class="val-error">⚠ 내용을 입력해 주세요.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Section 9: 기본 정보 -->
+    <div class="section-block">
+      <div class="section-title"><span class="num">9</span> 기본 정보 및 마무리</div>
+      <div class="section-body">
+
+        <div class="question-item" data-qid="g1" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q1</span> 이 앱이 가져야 할 가장 핵심적인 가치는 무엇인가요? <span class="q-required">*</span></div>
+          <div class="options-list grid-2">
+            <label class="option-label"><input type="radio" name="g1" value="간편한 기록"> 간편한 기록</label>
+            <label class="option-label"><input type="radio" name="g1" value="데이터 분석"> 데이터 분석</label>
+            <label class="option-label"><input type="radio" name="g1" value="집중 방해 차단"> 집중 방해 차단</label>
+            <label class="option-label"><input type="radio" name="g1" value="커뮤니티 활동"> 커뮤니티 활동</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="g2" data-required="true" data-type="textarea">
+          <div class="q-label"><span class="q-num">Q2</span> 마지막으로 앱에 바라는 점이나 꼭 있었으면 하는 기능이 있다면 자유롭게 적어주세요. <span class="q-required">*</span></div>
+          <textarea name="g2" placeholder="자유롭게 입력해 주세요" maxlength="400" rows="4"></textarea>
+          <div class="val-error">⚠ 내용을 입력해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="g3" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q3</span> 나이대를 선택해주세요. <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="g3" value="10대"> 10대</label>
+            <label class="option-label"><input type="radio" name="g3" value="20대 초반 (20~23세)"> 20대 초반 (20~23세)</label>
+            <label class="option-label"><input type="radio" name="g3" value="20대 후반 (24~29세)"> 20대 후반 (24~29세)</label>
+            <label class="option-label"><input type="radio" name="g3" value="30대 이상"> 30대 이상</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="g4" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q4</span> 성별을 선택해주세요. <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="g4" value="여성"> 여성</label>
+            <label class="option-label"><input type="radio" name="g4" value="남성"> 남성</label>
+            <label class="option-label"><input type="radio" name="g4" value="밝히고 싶지 않음"> 밝히고 싶지 않음</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+        <div class="question-item" data-qid="g5" data-required="true" data-type="radio">
+          <div class="q-label"><span class="q-num">Q5</span> 직업을 선택해주세요. <span class="q-required">*</span></div>
+          <div class="options-list">
+            <label class="option-label"><input type="radio" name="g5" value="학생"> 학생</label>
+            <label class="option-label"><input type="radio" name="g5" value="직장인 및 프리랜서"> 직장인 및 프리랜서</label>
+            <label class="option-label"><input type="radio" name="g5" value="무직"> 무직</label>
+            <label class="option-label"><input type="radio" name="g5" value="기타"> 기타</label>
+          </div>
+          <div class="val-error">⚠ 응답을 선택해 주세요.</div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <button type="submit" class="btn-submit">설문 제출하기 →</button>
+    </div>
+
+  </form>
+
+  <!-- Thank you screen -->
+  <div class="thankyou-screen" id="thankyouScreen">
+    <div class="big-icon">🎉</div>
+    <h2>소중한 응답 감사합니다!</h2>
+    <p>여러분의 응답이 더 나은 앱을 만드는 데<br>큰 도움이 됩니다.<br><br>수집된 데이터는 3개월 후 영구 삭제됩니다.</p>
+  </div>
+
+  <!-- Stats button -->
+  <div class="stats-area">
+    <button class="btn-stats" id="btnOpenStats">📊 통계 보기</button>
+  </div>
+
+</div>
+
+<!-- Stats Modal -->
+<div class="modal-overlay" id="statsModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>📊 설문 통계</h3>
+      <button class="btn-close-modal" id="btnCloseModal">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Password screen -->
+      <div id="pwScreen" class="pw-wrap">
+        <input type="password" class="pw-input" id="pwInput" placeholder="비밀번호를 입력하시오" maxlength="20">
+        <div class="pw-error" id="pwError">비밀번호가 올바르지 않습니다.</div>
+        <button class="btn-pw-submit" id="btnPwSubmit">확인</button>
+      </div>
+
+      <!-- Stats content -->
+      <div class="stats-panel" id="statsContent">
+
+        <div class="stats-overview" id="statsOverview"></div>
+
+        <div class="stats-section-title">⏱ 응답 소요 시간</div>
+        <div class="stat-time-grid" id="statTimeGrid"></div>
+
+        <div id="statsCharts"></div>
+
+        <!-- Delete controls -->
+        <div class="delete-area">
+          <div class="delete-section-title">🗑 데이터 삭제</div>
+          <button class="btn-delete-all" id="btnDeleteAll">전체 데이터 삭제</button>
+          <div class="delete-section-title" style="margin-top:4px;">👤 응답자별 삭제</div>
+          <div class="response-list" id="responseList"></div>
+          <div class="confirm-toast" id="confirmToast">
+            <span id="confirmMsg"></span>
+            <div class="toast-btns">
+              <button class="toast-btn-confirm" id="toastConfirm">삭제</button>
+              <button class="toast-btn-cancel" id="toastCancel">취소</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ════════════════════════════════════════════════
+  // ⚙️  Google Sheets 연동 설정
+  //     아래 SHEET_URL 에 본인의 Apps Script 웹앱 URL을 붙여넣으세요.
+  //     설정 방법은 파일 하단 주석을 참고하세요.
+  // ════════════════════════════════════════════════
+  const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzmqXbxj6dM568kbBTUSSBwidWoav-a3iu7NUO2zngoo2XtCO-VcQrN8VwrSZ5Lkqcnqw/exec';
+
+  // ─── Timer
+  let surveyStartTime = Date.now();
+
+  // ─── Google Sheets로 응답 전송 (POST)
+  async function sendToSheet(response) {
+    if (!SHEET_URL || SHEET_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+      alert('⚠️ SHEET_URL이 설정되지 않았습니다.\n파일 상단의 SHEET_URL을 설정해주세요.');
+      return false;
+    }
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(response)
+      });
+      return true;
+    } catch(e) {
+      console.warn('Sheets 전송 실패:', e);
+      return false;
+    }
+  }
+
+  // ─── Google Sheets에서 응답 목록 불러오기 (GET)
+  async function loadResponses() {
+    if (!SHEET_URL || SHEET_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return [];
+    try {
+      const res = await fetch(SHEET_URL + '?action=getAll');
+      const data = await res.json();
+      return Array.isArray(data) ? data : [];
+    } catch(e) {
+      console.warn('Sheets 불러오기 실패:', e);
+      return [];
+    }
+  }
+
+  // ─── Google Sheets에서 단일 행 삭제 (DELETE)
+  async function deleteResponse(idx) {
+    if (!SHEET_URL || SHEET_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return false;
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ _action: 'delete', _rowIndex: idx })
+      });
+      return true;
+    } catch(e) { return false; }
+  }
+
+  // ─── Google Sheets 전체 삭제
+  async function deleteAllResponses() {
+    if (!SHEET_URL || SHEET_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return false;
+    try {
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ _action: 'deleteAll' })
+      });
+      return true;
+    } catch(e) { return false; }
+  }
+
+  // ─── Validation
+  document.getElementById('surveyForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    try {
+    let valid = true;
+
+    document.querySelectorAll('.question-item[data-required="true"]').forEach(item => {
+      const qid = item.dataset.qid;
+      const type = item.dataset.type;
+      const errEl = item.querySelector('.val-error');
+      let answered = false;
+
+      if (type === 'radio') {
+        answered = !!item.querySelector(`input[type="radio"]:checked`);
+      } else if (type === 'checkbox') {
+        answered = !!item.querySelector(`input[type="checkbox"]:checked`);
+      } else if (type === 'textarea') {
+        const ta = item.querySelector('textarea');
+        answered = ta && ta.value.trim().length > 0;
+      }
+
+      if (!answered) {
+        item.classList.add('has-error');
+        errEl.classList.add('show');
+        if (valid) {
+          item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        valid = false;
+      } else {
+        item.classList.remove('has-error');
+        errEl.classList.remove('show');
+      }
+    });
+
+    if (!valid) return;
+
+    // 버튼 로딩 상태
+    const submitBtn = document.querySelector('.btn-submit');
+    submitBtn.textContent = '제출 중...';
+    submitBtn.disabled = true;
+
+    // Collect response
+    const elapsed = Math.round((Date.now() - surveyStartTime) / 1000);
+    const response = { timestamp: Date.now(), elapsed };
+
+    document.querySelectorAll('.question-item').forEach(item => {
+      const qid = item.dataset.qid;
+      const type = item.dataset.type;
+      if (type === 'radio') {
+        const checked = item.querySelector(`input[type="radio"]:checked`);
+        response[qid] = checked ? checked.value : null;
+      } else if (type === 'checkbox') {
+        const checked = [...item.querySelectorAll(`input[type="checkbox"]:checked`)].map(i => i.value);
+        response[qid] = checked.length ? checked : null;
+      } else if (type === 'textarea') {
+        const ta = item.querySelector('textarea');
+        response[qid] = ta ? ta.value.trim() : null;
+      }
+    });
+
+    // Google Sheets 전송 (실패해도 감사화면 표시)
+    await sendToSheet(response);
+
+    // Show thank you
+    document.getElementById('surveyForm').style.display = 'none';
+    document.getElementById('thankyouScreen').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch(err) {
+      console.error('Submit error:', err);
+      document.getElementById('surveyForm').style.display = 'none';
+      document.getElementById('thankyouScreen').classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+
+  // Live validation clearing
+  document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(inp => {
+    inp.addEventListener('change', function() {
+      const item = this.closest('.question-item');
+      if (item) {
+        item.classList.remove('has-error');
+        const err = item.querySelector('.val-error');
+        if (err) err.classList.remove('show');
+      }
+    });
+  });
+  document.querySelectorAll('textarea').forEach(ta => {
+    ta.addEventListener('input', function() {
+      const item = this.closest('.question-item');
+      if (item && this.value.trim().length > 0) {
+        item.classList.remove('has-error');
+        const err = item.querySelector('.val-error');
+        if (err) err.classList.remove('show');
+      }
+    });
+  });
+
+  // ─── Modal
+  document.getElementById('btnOpenStats').addEventListener('click', () => {
+    document.getElementById('statsModal').classList.add('show');
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwError').classList.remove('show');
+    document.getElementById('pwScreen').style.display = 'block';
+    document.getElementById('statsContent').classList.remove('show');
+  });
+  document.getElementById('btnCloseModal').addEventListener('click', () => {
+    document.getElementById('statsModal').classList.remove('show');
+  });
+  document.getElementById('statsModal').addEventListener('click', function(e) {
+    if (e.target === this) this.classList.remove('show');
+  });
+
+  // ─── Password
+  function checkPassword() {
+    const val = document.getElementById('pwInput').value;
+    if (val === '1112') {
+      document.getElementById('pwScreen').style.display = 'none';
+      document.getElementById('statsContent').classList.add('show');
+      renderStats(); // async지만 await 없이 호출 — 로딩 UI가 처리함
+    } else {
+      document.getElementById('pwError').classList.add('show');
+    }
+  }
+  document.getElementById('btnPwSubmit').addEventListener('click', checkPassword);
+  document.getElementById('pwInput').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') checkPassword();
+  });
+
+  // ─── Stats rendering
+  function fmtTime(sec) {
+    if (sec < 60) return sec + '초';
+    const m = Math.floor(sec / 60), s = sec % 60;
+    return s > 0 ? `${m}분 ${s}초` : `${m}분`;
+  }
+
+  function fmtDate(ts) {
+    const d = new Date(ts);
+    const pad = n => String(n).padStart(2,'0');
+    return `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  // ─── Delete logic
+  let pendingDeleteIdx = null; // null = delete all, number = single index
+
+  function showConfirm(msg, idx) {
+    pendingDeleteIdx = idx;
+    document.getElementById('confirmMsg').textContent = msg;
+    document.getElementById('confirmToast').classList.add('show');
+    document.getElementById('confirmToast').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  function hideConfirm() {
+    pendingDeleteIdx = null;
+    document.getElementById('confirmToast').classList.remove('show');
+  }
+
+  document.getElementById('btnDeleteAll').addEventListener('click', async () => {
+    const responses = await loadResponses();
+    const n = responses.length;
+    if (n === 0) { alert('삭제할 데이터가 없습니다.'); return; }
+    showConfirm(`전체 응답 ${n}건을 모두 삭제하시겠습니까?`, null);
+  });
+
+  document.getElementById('toastConfirm').addEventListener('click', async () => {
+    document.getElementById('toastConfirm').textContent = '삭제 중...';
+    document.getElementById('toastConfirm').disabled = true;
+    if (pendingDeleteIdx === null) {
+      await deleteAllResponses();
+    } else {
+      await deleteResponse(pendingDeleteIdx);
+    }
+    hideConfirm();
+    document.getElementById('toastConfirm').textContent = '삭제';
+    document.getElementById('toastConfirm').disabled = false;
+    await renderStats();
+  });
+
+  document.getElementById('toastCancel').addEventListener('click', hideConfirm);
+
+  function renderResponseList(responses) {
+    const listEl = document.getElementById('responseList');
+    if (responses.length === 0) {
+      listEl.innerHTML = '<div style="font-size:0.78rem;color:var(--ink-light);padding:8px 4px;">응답 데이터가 없습니다.</div>';
+      return;
+    }
+    listEl.innerHTML = responses.map((r, i) => `
+      <div class="response-row">
+        <div class="response-row-info">
+          <strong>응답자 #${i + 1}</strong>
+          ${fmtDate(r.timestamp)} &nbsp;·&nbsp; 소요 ${fmtTime(r.elapsed || 0)}
+        </div>
+        <button class="btn-delete-one" data-idx="${i}">삭제</button>
+      </div>
+    `).join('');
+
+    listEl.querySelectorAll('.btn-delete-one').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const idx = parseInt(this.dataset.idx);
+        showConfirm(`응답자 #${idx + 1}의 데이터를 삭제하시겠습니까?`, idx);
+      });
+    });
+  }
+
+  async function renderStats() {
+    // 로딩 표시
+    document.getElementById('statsOverview').innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:12px;font-size:0.85rem;color:var(--ink-light);">📡 데이터 불러오는 중...</div>';
+    document.getElementById('statsCharts').innerHTML = '';
+    document.getElementById('statTimeGrid').innerHTML = '';
+
+    const responses = await loadResponses();
+    const n = responses.length;
+
+    // Overview
+    const overviewEl = document.getElementById('statsOverview');
+    let avgTime = 0, minTime = Infinity, maxTime = 0;
+    if (n > 0) {
+      const times = responses.map(r => r.elapsed || 0);
+      avgTime = Math.round(times.reduce((a,b) => a+b, 0) / n);
+      minTime = Math.min(...times);
+      maxTime = Math.max(...times);
+    }
+    overviewEl.innerHTML = `
+      <div class="overview-card"><span class="val">${n}</span><span class="lbl">총 응답 수</span></div>
+      <div class="overview-card"><span class="val">${n > 0 ? fmtTime(avgTime) : '-'}</span><span class="lbl">평균 소요 시간</span></div>
+    `;
+
+    // Time stats
+    const timeGrid = document.getElementById('statTimeGrid');
+    timeGrid.innerHTML = `
+      <div class="stat-time-card"><span class="tv">${n > 0 ? fmtTime(avgTime) : '-'}</span><span class="tl">평균 소요 시간</span></div>
+      <div class="stat-time-card"><span class="tv">${n > 0 && minTime !== Infinity ? fmtTime(minTime) : '-'}</span><span class="tl">최단 소요 시간</span></div>
+      <div class="stat-time-card"><span class="tv">${n > 0 ? fmtTime(maxTime) : '-'}</span><span class="tl">최장 소요 시간</span></div>
+    `;
+
+    // Response list for deletion
+    renderResponseList(responses);
+
+    if (n === 0) {
+      document.getElementById('statsCharts').innerHTML = '<p style="color:var(--ink-light);font-size:0.88rem;text-align:center;padding:20px 0;">아직 응답 데이터가 없습니다.</p>';
+      return;
+    }
+
+    // Questions to show stats for
+    const qDefs = [
+      { sec: '독서 및 공부 습관', qs: [
+        { id: 'h1', label: 'Q1. 앱 사용 여부' },
+        { id: 'h3', label: 'Q3. 공부 빈도' },
+        { id: 'h4', label: 'Q4. 독서 빈도' },
+        { id: 'h5', label: 'Q5. 집중 방해 요소' },
+      ]},
+      { sec: '기존 앱 사용 경험', qs: [
+        { id: 'a1', label: 'Q1. 불편했던 점' },
+        { id: 'a2', label: 'Q2. 통합 앱 사용 의향' },
+      ]},
+      { sec: '타이머 및 모드 전환', qs: [
+        { id: 't1', label: 'Q1. 모드 전환 유용성' },
+        { id: 't3', label: 'Q3. 타이머 화면 강조 정보' },
+        { id: 't4', label: 'Q4. 모드 전환 차별점' },
+      ]},
+      { sec: '독서 기록 + 도서 추천', qs: [
+        { id: 'r1', label: 'Q1. 필수 기록 항목' },
+        { id: 'r2', label: 'Q2. 추천 알고리즘 기준' },
+        { id: 'r3', label: 'Q3. 진도율 알림 도움' },
+        { id: 'r4', label: 'Q4. 기록 편의 기능' },
+        { id: 'r5', label: 'Q5. 위시리스트 의향' },
+      ]},
+      { sec: '스터디 기능', qs: [
+        { id: 's1', label: 'Q1. 학습 동기 요소' },
+        { id: 's2', label: 'Q2. 유료 서비스 가치' },
+        { id: 's3', label: 'Q3. 맞춤형 분석 기대' },
+        { id: 's4', label: 'Q4. 보상 배지 동기부여' },
+        { id: 's5', label: 'Q5. 유료 결제 의사' },
+      ]},
+      { sec: '플레이리스트', qs: [
+        { id: 'p1', label: 'Q1. 선호 사운드' },
+        { id: 'p2', label: 'Q2. 큐레이션 방식' },
+      ]},
+      { sec: '소셜 커뮤니티', qs: [
+        { id: 'c1', label: 'Q1. 실시간 공부 현황' },
+        { id: 'c2', label: 'Q2. 스터디 그룹 참여' },
+        { id: 'c3', label: 'Q3. SNS 공유 기능' },
+        { id: 'c4', label: 'Q4. 랭킹 시스템' },
+        { id: 'c5', label: 'Q5. 독서 노트 소통' },
+      ]},
+      { sec: '디자인 선호도', qs: [
+        { id: 'd1', label: 'Q1. 선호 스타일' },
+        { id: 'd2', label: 'Q2. 모드 분위기 차이' },
+        { id: 'd3', label: 'Q3. 모드 전환 방식' },
+      ]},
+      { sec: '기본 정보', qs: [
+        { id: 'g1', label: 'Q1. 핵심 가치' },
+        { id: 'g3', label: 'Q3. 나이대' },
+        { id: 'g4', label: 'Q4. 성별' },
+        { id: 'g5', label: 'Q5. 직업' },
+      ]},
+    ];
+
+    let html = '';
+    qDefs.forEach(sec => {
+      html += `<div class="stats-section-title">${sec.sec}</div>`;
+      sec.qs.forEach(q => {
+        const counts = {};
+        responses.forEach(r => {
+          const val = r[q.id];
+          if (!val) return;
+          const vals = Array.isArray(val) ? val : [val];
+          vals.forEach(v => { counts[v] = (counts[v] || 0) + 1; });
+        });
+        const entries = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+        const maxCount = entries.length ? entries[0][1] : 1;
+        html += `<div class="stat-q-block"><div class="stat-q-title">${q.label}</div>`;
+        if (entries.length === 0) {
+          html += `<div style="font-size:0.78rem;color:var(--ink-light)">응답 없음</div>`;
+        } else {
+          entries.forEach(([label, count]) => {
+            const pct = Math.round((count / Math.max(n,1)) * 100);
+            const barW = Math.round((count / maxCount) * 100);
+            html += `<div class="stat-bar-row">
+              <div class="stat-bar-label">${label}</div>
+              <div class="stat-bar-outer"><div class="stat-bar-inner" style="width:${barW}%"></div></div>
+              <div class="stat-bar-count">${count}명 (${pct}%)</div>
+            </div>`;
+          });
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('statsCharts').innerHTML = html;
+  }
+</script>
+
+<!--
+════════════════════════════════════════════════════════════
+  📋 Google Sheets 연동 설정 방법 (5분이면 완료!)
+════════════════════════════════════════════════════════════
+
+  1. Google Sheets에서 새 스프레드시트를 만드세요.
+     (제목 예: "설문 응답 데이터")
+
+  2. 상단 메뉴 → [확장 프로그램] → [Apps Script] 클릭
+
+  3. 아래 코드를 전체 복사해서 붙여넣고 저장(💾)하세요:
+  ─────────────────────────────────────────────────────────
+  const SHEET_NAME = 'Sheet1'; // 시트 이름 (기본값 그대로 사용)
+
+  function doGet(e) {
+    const action = e.parameter.action;
+    if (action === 'getAll') {
+      const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+      const rows = sheet.getDataRange().getValues();
+      if (rows.length <= 1) return jsonResponse([]);
+      const headers = rows[0];
+      const data = rows.slice(1).map(row => {
+        const obj = {};
+        headers.forEach((h, i) => {
+          try { obj[h] = JSON.parse(row[i]); } catch(e) { obj[h] = row[i]; }
+        });
+        return obj;
+      });
+      return jsonResponse(data);
+    }
+    return jsonResponse({ error: 'unknown action' });
+  }
+
+  function doPost(e) {
+    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+    const data = JSON.parse(e.postData.contents);
+
+    if (data._action === 'deleteAll') {
+      const lastRow = sheet.getLastRow();
+      if (lastRow > 1) sheet.deleteRows(2, lastRow - 1);
+      return jsonResponse({ result: 'deleted all' });
+    }
+
+    if (data._action === 'delete') {
+      const rowIndex = parseInt(data._rowIndex) + 2; // 헤더(1행) + 0-index 보정
+      if (rowIndex >= 2 && rowIndex <= sheet.getLastRow()) {
+        sheet.deleteRow(rowIndex);
+      }
+      return jsonResponse({ result: 'deleted row' });
+    }
+
+    // 일반 응답 저장
+    if (sheet.getLastRow() === 0) {
+      sheet.appendRow(Object.keys(data));
+    } else if (sheet.getLastRow() === 1) {
+      // 헤더가 없으면 추가
+    } else {
+      // 헤더 확인 후 없으면 추가
+    }
+    const headers = sheet.getLastRow() >= 1
+      ? sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0]
+      : [];
+    if (headers.length === 0) {
+      sheet.appendRow(Object.keys(data));
+    }
+    sheet.appendRow(Object.keys(data).map(k => {
+      const v = data[k];
+      return Array.isArray(v) ? JSON.stringify(v) : v;
+    }));
+    return jsonResponse({ result: 'success' });
+  }
+
+  function jsonResponse(obj) {
+    return ContentService
+      .createTextOutput(JSON.stringify(obj))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+  ─────────────────────────────────────────────────────────
+
+  4. [배포] → [새 배포] 클릭
+     - 유형: 웹 앱
+     - 다음 사용자로 실행: 나
+     - 액세스 권한: 모든 사용자 (익명 포함)
+     → [배포] 버튼 클릭
+
+  5. 생성된 웹 앱 URL을 복사해서
+     이 HTML 파일 상단의 SHEET_URL 에 붙여넣으세요:
+     const SHEET_URL = '여기에붙여넣기';
+
+  6. 저장 후 카톡으로 공유하면
+     - 응답 제출 → 구글 시트에 자동 저장 ✅
+     - 통계 보기 버튼 → 시트에서 데이터 불러와 모달에 표시 ✅
+     - 응답자별/전체 삭제도 시트에서 바로 반영 ✅
+════════════════════════════════════════════════════════════
+-->
+</body>
+</html>
