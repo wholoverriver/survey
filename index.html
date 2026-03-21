@@ -1567,13 +1567,6 @@ async function renderStats() {
   const n = responses.length;
 
   // Webhook 안내
-  if (WEBHOOK_URL) {
-    document.getElementById('deleteArea').innerHTML = `
-      <div class="webhook-banner">
-        ℹ️ <strong>웹훅 모드</strong>로 운영 중입니다.<br>
-        응답 삭제는 연결된 <a href="${WEBHOOK_URL.replace('/exec','')}" target="_blank">Google 스프레드시트</a>에서 직접 해주세요.
-      </div>`;
-  }
 
   // Overview
   let avgTime = 0, minTime = Infinity, maxTime = 0;
@@ -1709,6 +1702,14 @@ async function renderStats() {
   });
 
   chartsEl.innerHTML = html;
+  
+  if (WEBHOOK_URL) {
+    document.getElementById('deleteArea').innerHTML = `
+      <div class="webhook-banner">
+        ℹ️ <strong>웹훅 모드</strong>로 운영 중입니다.<br>
+        응답 삭제는 연결된 <a href="${WEBHOOK_URL.replace('/exec','')}" target="_blank">Google 스프레드시트</a>에서 직접 해주세요.
+      </div>`;
+  }
 }
 </script>
 </body>
