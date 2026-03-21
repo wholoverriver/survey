@@ -1593,7 +1593,7 @@ async function renderStats() {
     <div class="stat-time-card"><span class="tv">${n > 0 ? fmtTime(maxTime) : '-'}</span><span class="tl">최장 소요</span></div>
   `;
 
-  renderResponseList(responses);
+  if (!WEBHOOK_URL) renderResponseList(responses);
 
   if (n === 0) {
     chartsEl.innerHTML = '<p style="color:var(--ink-light);font-size:0.88rem;text-align:center;padding:20px 0;">아직 응답 데이터가 없습니다.</p>';
