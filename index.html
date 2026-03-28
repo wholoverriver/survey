@@ -952,22 +952,22 @@ async function loadResponses() {
   return await fetchAndCache();
 }
 
+// ✅ 수정된 saveResponse
 async function saveResponse(resp) {
   if (WEBHOOK_URL) {
     try {
-      // ✅ 수정된 코드
-await fetch(WEBHOOK_URL, {
-  method: 'POST',
-  mode: 'no-cors',          // ← 이게 핵심
-  headers: { 'Content-Type': 'text/plain' },
-  body: JSON.stringify(resp)
-});
+      await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(resp)
+      });
+      try { localStorage.removeItem(CACHE_KEY); } catch(e) {}  // ← 캐시 삭제
       return;
     } catch(e) { console.warn('웹훅 저장 실패:', e); }
   }
   saveToLocal(resp);
 }
-
 // ─── 기타 텍스트 가져오기
 function getOtherText(item, value) {
   const label = item.querySelector(`.other-toggle input[value="${value}"]`)?.closest('.other-toggle');
