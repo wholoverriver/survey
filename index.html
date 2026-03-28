@@ -955,7 +955,13 @@ async function loadResponses() {
 async function saveResponse(resp) {
   if (WEBHOOK_URL) {
     try {
-      await fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(resp) });
+      // ✅ 수정된 코드
+await fetch(WEBHOOK_URL, {
+  method: 'POST',
+  mode: 'no-cors',          // ← 이게 핵심
+  headers: { 'Content-Type': 'text/plain' },
+  body: JSON.stringify(resp)
+});
       return;
     } catch(e) { console.warn('웹훅 저장 실패:', e); }
   }
