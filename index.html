@@ -1508,21 +1508,30 @@ function showResponseDetail(idx) {
 
 // --- 응답자 리스트 렌더링 수정 (클릭 시 상세 보기 연결)
 function renderResponseList(responses) {
-  const listEl = document.getElementById('responseList');
-  if (responses.length === 0) {
-    listEl.innerHTML = '<div style="font-size:0.78rem;color:var(--ink-light);padding:8px 4px;">응답 데이터가 없습니다.</div>';
-    return;
-  }
-  
-  listEl.innerHTML = responses.map((r, i) => `
-    <div class="response-row" style="cursor:pointer;" onclick="showResponseDetail(${i})">
-      <div class="response-row-info">
-        <strong>응답자 #${i + 1} (클릭 시 상세 보기)</strong>
-        ${fmtDate(r.timestamp)} &nbsp;·&nbsp; 소요 ${fmtTime(r.elapsed || 0)}
-      </div>
-      <button class="btn-delete-one" data-idx="${i}" onclick="event.stopPropagation();">삭제</button>
-    </div>
-  `).join('');
+    const listEl = document.getElementById('responseList');
+    if (responses.length === 0) {
+        listEl.innerHTML = '<div style="font-size:0.78rem; padding:10px;">데이터가 없습니다.</div>';
+        return;
+    }
+    listEl.innerHTML = responses.map((r, i) => `
+        <div class="response-row" style="cursor:pointer;" onclick="showResponseDetail(${i})">
+            <div class="response-row-info">
+                <strong>응답자 #${i + 1} <small>(클릭 시 상세보기)</small></strong>
+                ${fmtDate(r.timestamp)} · ${fmtTime(r.elapsed)}
+            </div>
+            <button class="btn-delete-one" onclick="event.stopPropagation(); deleteOne(${i});">삭제</button>
+        </div>
+    `).join('');
+}
+
+function deleteOne(idx) {
+    if(confirm(`응답자 #${idx+1}의 데이터를 삭제하시겠습니까?`)) {
+        const all = loadResponses();
+        all.splice(idx, 1);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+        renderStats();
+    }
+}
 
   // 삭제 버튼 이벤트 연결
   listEl.querySelectorAll('.btn-delete-one').forEach(btn => {
