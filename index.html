@@ -1320,7 +1320,6 @@ async function saveResponse(resp) {
       await fetch(WEBHOOK_URL, {
         method: 'POST',
         mode: 'no-cors', // 구글 앱스 스크립트 통신 필수 설정
-        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(resp)
       });
       return;
