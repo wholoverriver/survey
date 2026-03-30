@@ -1454,16 +1454,31 @@ async function saveResponse(resp) {
   });
 
   // ─── Password
-  function checkPassword() {
-    const val = document.getElementById('pwInput').value;
-    if (val === '1112') {
+  async function checkPassword() {
+  const val = document.getElementById('pwInput').value;
+  if (val === '1112') {
+    // 로딩 표시 (선택사항)
+    document.getElementById('pwScreen').innerHTML = "데이터 불러오는 중...";
+    
+    // JSONP 방식으로 데이터 가져오기
+    const cbName = '_cb' + Date.now();
+    const script = document.createElement('script');
+    window[cbName] = function(data) {
+      delete window[cbName];
+      script.remove();
+      // 가져온 데이터를 로컬에 덮어쓰기해서 통계 렌더링
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
       document.getElementById('pwScreen').style.display = 'none';
       document.getElementById('statsContent').classList.add('show');
       renderStats();
-    } else {
-      document.getElementById('pwError').classList.add('show');
-    }
+    };
+    script.src = WEBHOOK_URL + '?callback=' + cbName;
+    document.head.appendChild(script);
+    
+  } else {
+    document.getElementById('pwError').classList.add('show');
   }
+}
   document.getElementById('btnPwSubmit').addEventListener('click', checkPassword);
   document.getElementById('pwInput').addEventListener('keydown', function(e) {
     if (e.key === 'Enter') checkPassword();
