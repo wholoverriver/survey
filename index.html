@@ -1313,14 +1313,10 @@ const USE_LOCAL_STORAGE = isLocalStorageAvailable();
 
   // ─── Load responses
   function loadResponses() {
-  try {
-    if (USE_LOCAL_STORAGE) {
-      const raw = localStorage.getItem(STORAGE_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } else {
-      return _memoryStore ? JSON.parse(JSON.stringify(_memoryStore)) : [];
-    }
-  } catch(e) { return []; }
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+    } catch(e) { return []; }
 }
   
   // ─── 데이터 저장 (구글 시트 전송 추가)
