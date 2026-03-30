@@ -1677,7 +1677,7 @@ document.getElementById('btnPwSubmit').addEventListener('click', checkPassword);
   let _pieJobs = [];
   let _pieCounter = 0;
 
-  function renderStats() {
+function renderStats() {
     const responses = loadResponses();
     const n = responses.length;
 
@@ -1821,25 +1821,19 @@ document.getElementById('btnPwSubmit').addEventListener('click', checkPassword);
 
     // 원그래프 그리기
     requestAnimationFrame(() => {
-      _pieJobs.forEach(({ cid, entries, total }) => {
-        const canvas = document.getElementById(cid);
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        const cx = canvas.width / 2, cy = canvas.height / 2, r = Math.min(cx, cy) - 4;
-        let startAngle = -Math.PI / 2;
-        entries.forEach(([, count], i) => {
-          const slice = (count / Math.max(total, 1)) * 2 * Math.PI;
-          ctx.beginPath(); ctx.moveTo(cx, cy);
-          ctx.arc(cx, cy, r, startAngle, startAngle + slice);
-          ctx.closePath();
-          ctx.fillStyle = PIE_COLORS[i % PIE_COLORS.length];
-          ctx.fill();
-          ctx.strokeStyle = '#fff'; ctx.lineWidth = 2; ctx.stroke();
-          startAngle += slice;
+        pieJobs.forEach(job => {
+            const ctx = document.getElementById(job.cid)?.getContext('2d');
+            if (!ctx) return;
+            let start = -Math.PI/2;
+            job.entries.forEach(([lbl, count], i) => {
+                const slice = (count / job.total) * 2 * Math.PI;
+                ctx.beginPath(); ctx.moveTo(60, 60); ctx.arc(60, 60, 55, start, start + slice);
+                ctx.fillStyle = PIE_COLORS[i%7]; ctx.fill(); ctx.strokeStyle = '#fff'; ctx.stroke();
+                start += slice;
+            });
         });
-      });
     });
-  }
+}
 </script>
 </body>
 </html>
