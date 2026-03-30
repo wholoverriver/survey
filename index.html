@@ -1470,17 +1470,28 @@ document.getElementById('btnCloseDetail').addEventListener('click', () => {
 
 // --- 응답 상세 보기 함수 (추가)
 function showResponseDetail(idx) {
-  const responses = loadResponses();
-  const r = responses[idx];
-  if (!r) return;
+    const responses = loadResponses();
+    const r = responses[idx];
+    if (!r) return;
 
-  const content = document.getElementById('detailContent');
-  document.getElementById('detailTitle').textContent = `응답자 #${idx + 1} 상세 내역`;
-  
-  let html = `<div style="margin-bottom:15px; padding-bottom:10px; border-bottom:1px solid #eee;">
-                <strong>제출 시간:</strong> ${fmtDate(r.timestamp)}<br>
-                <strong>소요 시간:</strong> ${fmtTime(r.elapsed)}
-              </div>`;
+    const content = document.getElementById('detailContent');
+    document.getElementById('detailTitle').textContent = `응답자 #${idx + 1} 전체 답변`;
+    
+    let html = `<div style="margin-bottom:15px; padding-bottom:10px; border-bottom:1.5px solid var(--border);">
+                    <strong>제출:</strong> ${fmtDate(r.timestamp)} | <strong>소요:</strong> ${fmtTime(r.elapsed)}
+                </div>`;
+    
+    Object.entries(r).forEach(([key, val]) => {
+        if (['timestamp', 'elapsed'].includes(key)) return;
+        html += `<div style="margin-bottom:10px;">
+                    <div style="color:var(--accent); font-weight:600; font-size:0.75rem;">[문항 ID: ${key}]</div>
+                    <div style="background:var(--highlight); padding:8px; border-radius:6px; border:1px solid #eee;">${Array.isArray(val) ? val.join(', ') : (val || '(미응답)')}</div>
+                 </div>`;
+    });
+
+    content.innerHTML = html;
+    detailModal.classList.add('show');
+}
   
   // 모든 문항 순회하며 출력
   Object.entries(r).forEach(([key, val]) => {
