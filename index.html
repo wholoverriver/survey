@@ -1293,25 +1293,25 @@ let surveyStartTime = Date.now();
 let _memoryStore = null;
 
   function isLocalStorageAvailable() {
-    try {
-      localStorage.setItem('__test__', '1');
-      localStorage.removeItem('__test__');
-      return true;
-    } catch(e) { return false; }
-  }
-  const USE_LOCAL_STORAGE = isLocalStorageAvailable();
+  try {
+    localStorage.setItem('__test__', '1');
+    localStorage.removeItem('__test__');
+    return true;
+  } catch(e) { return false; }
+}
+const USE_LOCAL_STORAGE = isLocalStorageAvailable();
 
   // ─── Load responses
   function loadResponses() {
-    try {
-      if (USE_LOCAL_STORAGE) {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        return raw ? JSON.parse(raw) : [];
-      } else {
-        return _memoryStore ? JSON.parse(JSON.stringify(_memoryStore)) : [];
-      }
-    } catch(e) { return []; }
-  }
+  try {
+    if (USE_LOCAL_STORAGE) {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } else {
+      return _memoryStore ? JSON.parse(JSON.stringify(_memoryStore)) : [];
+    }
+  } catch(e) { return []; }
+}
 
   function saveResponse(resp) {
     try {
