@@ -1318,7 +1318,19 @@ const USE_LOCAL_STORAGE = isLocalStorageAvailable();
         return raw ? JSON.parse(raw) : [];
     } catch(e) { return []; }
 }
-  
+
+async function saveResponse(resp) {
+    if (WEBHOOK_URL) {
+        try {
+            await fetch(WEBHOOK_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(resp) });
+        } catch(e) { console.warn('전송 실패:', e); }
+    }
+    const all = loadResponses();
+    all.push(resp);
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+}
+
+
   // ─── 데이터 저장 (구글 시트 전송 추가)
 async function saveResponse(resp) {
   if (WEBHOOK_URL) {
