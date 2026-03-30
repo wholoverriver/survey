@@ -1543,11 +1543,16 @@ function renderResponseList(responses) {
 
   // ─── Password
   async function checkPassword() {
-  const val = document.getElementById('pwInput').value;
-  if (val === '1112') {
-    // 로딩 표시 (선택사항)
-    document.getElementById('pwScreen').innerHTML = "데이터 불러오는 중...";
-    
+    if (document.getElementById('pwInput').value === PASSWORD) {
+        document.getElementById('pwScreen').style.display = 'none';
+        document.getElementById('statsContent').classList.add('show');
+        renderStats();
+    } else {
+        document.getElementById('pwError').classList.add('show');
+    }
+}
+document.getElementById('btnPwSubmit').addEventListener('click', checkPassword);
+
     // JSONP 방식으로 데이터 가져오기
     const cbName = '_cb' + Date.now();
     const script = document.createElement('script');
