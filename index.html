@@ -1598,11 +1598,8 @@ document.getElementById('btnPwSubmit').addEventListener('click', checkPassword);
   });
 
   // ─── Stats rendering
-  function fmtTime(sec) {
-    if (sec < 60) return sec + '초';
-    const m = Math.floor(sec / 60), s = sec % 60;
-    return s > 0 ? `${m}분 ${s}초` : `${m}분`;
-  }
+ function fmtTime(s) { return s < 60 ? s + '초' : Math.floor(s/60) + '분 ' + (s%60) + '초'; }
+function fmtDate(ts) { const d = new Date(ts); return `${d.getMonth()+1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2,'0')}`; }
 
   function fmtDate(ts) {
     const d = new Date(ts);
