@@ -1312,20 +1312,6 @@ const USE_LOCAL_STORAGE = isLocalStorageAvailable();
     }
   } catch(e) { return []; }
 }
-
-  function saveResponse(resp) {
-   try {
-    const all = loadResponses();
-    all.push(resp);
-    if (USE_LOCAL_STORAGE) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
-    } else {
-      _memoryStore = all;
-    }
-  } catch(e) {
-    console.warn('Storage save failed:', e);
-  }
-}
   
   // ─── 데이터 저장 (구글 시트 전송 추가)
 async function saveResponse(resp) {
